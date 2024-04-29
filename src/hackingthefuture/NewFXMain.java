@@ -25,6 +25,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import javafx.util.Duration;
 
 /**
@@ -35,6 +36,21 @@ public class NewFXMain extends Application {
 
     @Override
     public void start(Stage stage) {
+        try {
+            Parent root = FXMLLoader.load(getClass().getResource("LoginPage.fxml"));
+            Scene scene = new Scene(root);
+            stage.setTitle("Login Page");
+            stage.setScene(scene);
+            stage.setMaximized(true);
+            //stage.initStyle(StageStyle.TRANSPARENT);
+            stage.show();
+        } catch (IOException ex) {
+            java.util.logging.Logger.getLogger(hackingthefuture.NewFXMain.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        }
+
+    }
+    
+    public void test(Stage stage) {
         Image image = new Image("file:////C:/Users/Asus/Downloads/wallpaper.png/");
 
         // Create an ImageView

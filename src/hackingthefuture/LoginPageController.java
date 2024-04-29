@@ -17,6 +17,10 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Group;
 import javafx.scene.control.Button;
+import javafx.scene.control.PasswordField;
+import javafx.scene.control.TextField;
+import javafx.scene.control.TextInputControl;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
@@ -28,12 +32,9 @@ import javafx.util.Duration;
  * @author Asus
  */
 public class LoginPageController implements Initializable {
-
+    
     @FXML
-    private VBox leftBox, rightBox;
-
-    @FXML
-    private Button btn, btn1;
+    private HBox box;
 
     /**
      * Initializes the controller class.
@@ -41,31 +42,31 @@ public class LoginPageController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
-        btn.setOnAction(event -> {
-            
-            System.out.println(btn.getTranslateX());
-
-            Timeline switchAnimation = new Timeline(
-                    new KeyFrame(Duration.seconds(0.25),
-                            new KeyValue(leftBox.styleProperty(), "-fx-background-color: #b99c7e;"),
-                            new KeyValue(rightBox.styleProperty(), "-fx-background-color: linear-gradient(to right, #4962a3, #9bbdff);")
-                    ),
-                    new KeyFrame(Duration.seconds(0.5),
-                            new KeyValue(leftBox.translateXProperty(), 940 - leftBox.translateXProperty().get()),
-                            new KeyValue(rightBox.translateXProperty(), -600 - rightBox.translateXProperty().get()),
-                            new KeyValue(btn1.translateXProperty(), 600 - btn1.translateXProperty().get())
-                    )
-            );
-            
-            
-            switchAnimation.setOnFinished(e -> {
-                System.out.println(btn.translateXProperty().get());
-                btn1.setVisible(!btn1.visibleProperty().get());
-                System.out.println(leftBox.viewOrderProperty());
-                System.out.println(rightBox.viewOrderProperty());
-            });
-
-            switchAnimation.play();
-        });
+//        btn.setOnAction(event -> {
+//            
+//            System.out.println(btn.getTranslateX());
+//
+//            Timeline switchAnimation = new Timeline(
+//                    new KeyFrame(Duration.seconds(0.25),
+//                            new KeyValue(leftBox.styleProperty(), "-fx-background-color: #b99c7e;"),
+//                            new KeyValue(rightBox.styleProperty(), "-fx-background-color: linear-gradient(to right, #4962a3, #9bbdff);")
+//                    ),
+//                    new KeyFrame(Duration.seconds(0.5),
+//                            new KeyValue(leftBox.translateXProperty(), 940 - leftBox.translateXProperty().get()),
+//                            new KeyValue(rightBox.translateXProperty(), -600 - rightBox.translateXProperty().get()),
+//                            new KeyValue(btn1.translateXProperty(), 600 - btn1.translateXProperty().get())
+//                    )
+//            );
+//            
+//            
+//            switchAnimation.setOnFinished(e -> {
+//                System.out.println(btn.translateXProperty().get());
+//                btn1.setVisible(!btn1.visibleProperty().get());
+//                System.out.println(leftBox.viewOrderProperty());
+//                System.out.println(rightBox.viewOrderProperty());
+//            });
+//
+//            switchAnimation.play();
+//        });
     }
 }

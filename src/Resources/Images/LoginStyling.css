@@ -1,0 +1,35 @@
+/*
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/Other/CascadeStyleSheet.css to edit this template
+*/
+/* 
+    Created on : 29 Apr 2024, 3:10:11 pm
+    Author     : Asus
+*/
+
+.bg{
+    -fx-background-image : url("../Images/mixed_bg.png");
+}
+
+.login{
+    -fx-background-image : url("../Images/login_bg.png");
+}
+
+.login TextField{
+    -fx-opacity: 0.85;
+    -fx-background-radius: 30;
+}
+
+.login PasswordField{
+    -fx-opacity: 0.85;
+    -fx-background-radius: 30;
+}
+
+.login TextField:focused{
+    -fx-opacity: 1;
+}
+
+.login PasswordField:focused{
+    -fx-opacity: 1;
+}
+
