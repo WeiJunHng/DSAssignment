@@ -4,6 +4,8 @@
  */
 package hackingthefuture;
 
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.sql.DriverManager;
 
 /**
@@ -13,7 +15,10 @@ import java.sql.DriverManager;
 
 import java.sql.*; 
 import java.util.Scanner;
-import javax.swing.JOptionPane;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+//import javax.swing.JOptionPane;
+// A comment
 
 public class FutureHacking {
 
@@ -30,6 +35,10 @@ public class FutureHacking {
     public String emailLogin, passwordLogin;
     
     public String name, emailRegister, role, passwordRegister, confirmPassword;
+    
+    private static final String EMAIL_REGEX = "^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$";
+    
+    private static final Pattern pattern = Pattern.compile(EMAIL_REGEX);
     
     
     public FutureHacking(){
@@ -53,7 +62,7 @@ public class FutureHacking {
         dbm = con.getMetaData();
 
         //Student Table
-        rs = dbm.getTables(null,null,"tblStudent",null);
+        rs = dbm.getTables("futurehacking",null,"tblStudent",null);
         if(rs.next())
         {
                 System.out.println("Student Table exists");
@@ -62,9 +71,9 @@ public class FutureHacking {
         {
                 stmt = con.createStatement();
                 sql = "CREATE TABLE tblStudent (studentID VARCHAR(255) NOT NULL, "
-                        + "studentName VARCHAR(255), studentEmail VARCHAR(255), "
-                        + "studentPassword VARCHAR(255), registeredEvent VARCHAR(255), "
-                        + "registeredBooking VARCHAR(255), friendRequest VARCHAR(255), parentID VARCHAR(255), "
+                        + "studentName VARCHAR(255) DEFAULT '', studentEmail VARCHAR(255) DEFAULT '', "
+                        + "studentPassword VARCHAR(255) DEFAULT '', registeredEvent VARCHAR(255) DEFAULT '', "
+                        + "registeredBooking VARCHAR(255) DEFAULT '', friendRequest VARCHAR(255) DEFAULT '', parentID VARCHAR(255) DEFAULT '', "
                         + "PRIMARY KEY(studentID))";
 
                 stmt.executeUpdate(sql);
@@ -72,7 +81,7 @@ public class FutureHacking {
         }
 
         //Parent Table
-        rs = dbm.getTables(null,null,"tblParent",null);
+        rs = dbm.getTables("futurehacking",null,"tblParent",null);
         if(rs.next())
         {
                 System.out.println("Parent Table exists");
@@ -80,9 +89,9 @@ public class FutureHacking {
         else
         {
                 stmt = con.createStatement();
-                sql = "CREATE TABLE tblParent (parentID VARCHAR(255) NOT NULL, parentName VARCHAR(255), "
-                        + "parentEmail VARCHAR(255), parentPassword VARCHAR(255), "
-                        + "studentID VARCHAR(255), pastBooking VARCHAR(255), "
+                sql = "CREATE TABLE tblParent (parentID VARCHAR(255) NOT NULL, parentName VARCHAR(255) DEFAULT '', "
+                        + "parentEmail VARCHAR(255) DEFAULT '', parentPassword VARCHAR(255) DEFAULT '', "
+                        + "studentID VARCHAR(255) DEFAULT '', pastBooking VARCHAR(255) DEFAULT '', "
                         + "PRIMARY KEY(parentID))";
 
                 stmt.executeUpdate(sql);
@@ -90,7 +99,7 @@ public class FutureHacking {
         }
 
         //Educator Table
-        rs = dbm.getTables(null,null,"tblEducator",null);
+        rs = dbm.getTables("futurehacking",null,"tblEducator",null);
         if(rs.next())
         {
                 System.out.println("Educator Table exists");
@@ -99,16 +108,16 @@ public class FutureHacking {
         {
                 stmt = con.createStatement();
                 sql = "CREATE TABLE tblEducator (educatorID VARCHAR(255) NOT NULL, "
-                        + "educatorName VARCHAR(255), educatorEmail VARCHAR(255), "
-                        + "educatorPassword VARCHAR(255), numEvent VARCHAR(255), "
-                        + "numQuiz VARCHAR(255), PRIMARY KEY(educatorID))";
+                        + "educatorName VARCHAR(255) DEFAULT '', educatorEmail VARCHAR(255) DEFAULT '', "
+                        + "educatorPassword VARCHAR(255) DEFAULT '', numEvent VARCHAR(255) DEFAULT '', "
+                        + "numQuiz VARCHAR(255) DEFAULT '', PRIMARY KEY(educatorID))";
 
                 stmt.executeUpdate(sql);
                 System.out.println("Educator Table created");
         }
 
         //Event Table
-        rs = dbm.getTables(null,null,"tblEvent",null);
+        rs = dbm.getTables("futurehacking",null,"tblEvent",null);
         if(rs.next())
         {
                 System.out.println("Event Table exists");
@@ -117,9 +126,9 @@ public class FutureHacking {
         {
                 stmt = con.createStatement();
                 sql = "CREATE TABLE tblEvent (eventID VARCHAR(255) NOT NULL, "
-                        + "eventTitle VARCHAR(255), eventDesc LONGTEXT, "
-                        + "eventVenue VARCHAR(255), eventDate VARCHAR(255), "
-                        + "eventTime VARCHAR(255), educatorID VARCHAR(255), "
+                        + "eventTitle VARCHAR(255) DEFAULT '', eventDesc LONGTEXT, "
+                        + "eventVenue VARCHAR(255) DEFAULT '', eventDate VARCHAR(255) DEFAULT '', "
+                        + "eventTime VARCHAR(255) DEFAULT '', educatorID VARCHAR(255) DEFAULT '', "
                         + "PRIMARY KEY(eventID))";
 
                 stmt.executeUpdate(sql);
@@ -127,7 +136,7 @@ public class FutureHacking {
         }
 
         //Quiz Table
-        rs = dbm.getTables(null,null,"tblQuiz",null);
+        rs = dbm.getTables("futurehacking",null,"tblQuiz",null);
         if(rs.next())
         {
                 System.out.println("Quiz Table exists");
@@ -136,16 +145,16 @@ public class FutureHacking {
         {
                 stmt = con.createStatement();
                 sql = "CREATE TABLE tblQuiz (quizID VARCHAR(255) NOT NULL, "
-                        + "quizTitle VARCHAR(255), quizDesc LONGTEXT, "
-                        + "quizTheme VARCHAR(255), quizContent VARCHAR(255), "
-                        + "educatorID VARCHAR(255), PRIMARY KEY(quizID))";
+                        + "quizTitle VARCHAR(255) DEFAULT '', quizDesc LONGTEXT, "
+                        + "quizTheme VARCHAR(255 )DEFAULT '', quizContent VARCHAR(255) DEFAULT '', "
+                        + "educatorID VARCHAR(255) DEFAULT '', PRIMARY KEY(quizID))";
 
                 stmt.executeUpdate(sql);
                 System.out.println("Quiz Table created");
         }
 
         //Discussion Table
-        rs = dbm.getTables(null,null,"tblDiscussion",null);
+        rs = dbm.getTables("futurehacking",null,"tblDiscussion",null);
         if(rs.next())
         {
                 System.out.println("Discussion Table exists");
@@ -154,9 +163,9 @@ public class FutureHacking {
         {
                 stmt = con.createStatement();
                 sql = "CREATE TABLE tblDiscussion (discussionID VARCHAR(255) NOT NULL, "
-                        + "discussionTitle VARCHAR(255), discussionContent VARCHAR(255), "
-                        + "discussionAuthor VARCHAR(255), Comment VARCHAR(255), "
-                        + "discussionLike VARCHAR(255), datePublished VARCHAR(255), "
+                        + "discussionTitle VARCHAR(255) DEFAULT '', discussionContent VARCHAR(255) DEFAULT '', "
+                        + "discussionAuthor VARCHAR(255) DEFAULT '', Comment VARCHAR(255) DEFAULT '', "
+                        + "discussionLike VARCHAR(255) DEFAULT '', datePublished VARCHAR(255) DEFAULT '', "
                         + "PRIMARY KEY(discussionID))";
 
                 stmt.executeUpdate(sql);
@@ -164,10 +173,7 @@ public class FutureHacking {
         }
      
     }
-   
-    
-    public void loginGUI()throws Exception
-    {
+    public void loginGUI()throws Exception   {
         Scanner sc = new Scanner(System.in);
         
         System.out.print("Email : ");
@@ -204,8 +210,7 @@ public class FutureHacking {
         }else{
             System.out.println("Password and Confirm Password do not match");
         }
-    }
-    
+    } 
     
     public void validateLogin(String email, String password) throws Exception{
        
@@ -216,7 +221,8 @@ public class FutureHacking {
         
         if (rs.next()) 
         {
-            if(password.equals(rs.getString("studentPassword"))){
+            String hasedPassword = hashPassword(password);
+            if(hasedPassword.equals(rs.getString("studentPassword"))){
                 System.out.println("Go to main page");
             }else{
                 System.out.println("Incorrect Password");
@@ -259,93 +265,127 @@ public class FutureHacking {
         }
     }
     
-    
     public void validateRegister(String name, String email, String role, String password) throws Exception{
         
-        if(role.equals("Student")){
-            
-            stmt = con.createStatement();
-        
-            sql = "SELECT studentEmail FROM tblStudent WHERE studentEmail = '" + email + "'";
-            rs = stmt.executeQuery(sql);
-            
-            if(rs.next()){
-                
-                System.out.println("There is a existing email.");
-                
-            }else{
-                
+        if(isValidEmail(email)){
+            if(role.equals("Student")){
+
                 stmt = con.createStatement();
-        
-                sql = "SELECT MAX(studentID) FROM tblStudent";
+
+                sql = "SELECT studentEmail FROM tblStudent WHERE studentEmail = '" + email + "'";
                 rs = stmt.executeQuery(sql);
-                
-                String lastStudentId = null;
+
                 if(rs.next()){
-                    lastStudentId = rs.getString(1);
+
+                    System.out.println("There is a existing email.");
+
                 }else{
-                    lastStudentId = "S0";
+
+                    stmt = con.createStatement();
+
+                    sql = "SELECT MAX(studentID) FROM tblStudent";
+                    rs = stmt.executeQuery(sql);
+
+                    String lastStudentId = null;
+                    if(rs.next()){
+                        lastStudentId = rs.getString(1);
+                    }else{
+                        lastStudentId = "S0";
+                    }
+
+                    String nextStudentId = generateNextId(lastStudentId,"Student");
+                    Scanner sc = new Scanner(System.in);
+                    String parentID = "";
+                    while(true){
+                         System.out.print("Enter parent email : ");
+                         String parentEmail = sc.next();
+
+                         if(parentEmail.equals("stop")){
+                             break;
+                         }else{
+                             parentID += getParentID(parentEmail) + ",";
+                         }
+                    }
+
+
+                    stmt = con.createStatement();
+                    sql = "INSERT INTO tblStudent(studentID, studentName, studentEmail, studentPassword, parentID) VALUES ('" + nextStudentId + "', '" + 
+                           name + "', '" + email + "' , SHA2('" + password + "',256), '" + parentID + "')";
+                    stmt.executeUpdate(sql);
+
+                    updateParent(nextStudentId, parentID);
+
                 }
-                
-                String nextStudentId = generateNextId(lastStudentId,"Student");
-                Scanner sc = new Scanner(System.in);
-                String parentID = "";
-                while(true){
-                     System.out.print("Enter parent email : ");
-                     String parentEmail = sc.next();
-                     
-                     if(parentEmail.equals("stop")){
-                         break;
-                     }else{
-                         parentID += getParentID(parentEmail) + ",";
-                     }
-                }
-               
-                
+            }else if(role.equals("Parent")){
                 stmt = con.createStatement();
-                sql = "INSERT INTO tblStudent(studentID, studentName, studentEmail, studentPassword, parentID) VALUES ('" + nextStudentId + "', '" + 
-                       name + "', '" + email + "' ,'" + password + "', '" + parentID + "')";
-                stmt.executeUpdate(sql);
-                
-                updateParent(nextStudentId, parentID);
-                    
-            }
-        }else if(role.equals("Parent")){
-            stmt = con.createStatement();
-        
-            sql = "SELECT parentEmail FROM tblParent WHERE parentEmail = '" + email + "'";
-            rs = stmt.executeQuery(sql);
-            
-            if(rs.next()){
-                
-                System.out.println("There is a existing email.");
-                
-            }else{
-                
-                stmt = con.createStatement();
-        
-                sql = "SELECT MAX(parentID) FROM tblParent";
+
+                sql = "SELECT parentEmail FROM tblParent WHERE parentEmail = '" + email + "'";
                 rs = stmt.executeQuery(sql);
-                
-                String lastParentId = "";
+
                 if(rs.next()){
-                    lastParentId = rs.getString(1);
+
+                    System.out.println("There is a existing email.");
+
                 }else{
-                    lastParentId = "P0";
+
+                    stmt = con.createStatement();
+
+                    sql = "SELECT MAX(parentID) FROM tblParent";
+                    rs = stmt.executeQuery(sql);
+
+                    String lastParentId = "";
+                    if(rs.next()){
+                        lastParentId = rs.getString(1);
+                    }else{
+                        lastParentId = "P0";
+                    }
+
+                    String nextParentId = generateNextId(lastParentId,"Parent");
+
+                    stmt = con.createStatement();
+                    sql = "INSERT INTO tblParent(parentID, parentName, parentEmail, parentPassword) VALUES ('" + nextParentId + "', '" + 
+                           name + "', '" + email + "' ,SHA2('" + password + "',256))";
+                    stmt.executeUpdate(sql);
                 }
-                
-                String nextParentId = generateNextId(lastParentId,"Parent");
-                
+            }else{
                 stmt = con.createStatement();
-                sql = "INSERT INTO tblParent(parentID, parentName, parentEmail, parentPassword) VALUES ('" + nextParentId + "', '" + 
-                       name + "', '" + email + "' ,'" + password + "')";
-                stmt.executeUpdate(sql);
+
+                sql = "SELECT educatorEmail FROM tblEducator WHERE educatorEmail = '" + email + "'";
+                rs = stmt.executeQuery(sql);
+
+                if(rs.next()){
+
+                    System.out.println("There is a existing email.");
+
+                }else{
+
+                    stmt = con.createStatement();
+
+                    sql = "SELECT MAX(educatorID) FROM tblEducator";
+                    rs = stmt.executeQuery(sql);
+
+                    String lastEducaotrId = "";
+                    if(rs.next()){
+                        lastEducaotrId = rs.getString(1);
+                    }else{
+                        lastEducaotrId = "E0";
+                    }
+
+                    String nextEducatorId = generateNextId(lastEducaotrId,"Educator");
+
+                    stmt = con.createStatement();
+                    sql = "INSERT INTO tblEducator(educatorID, educatorName, educatorEmail, educatorPassword) VALUES ('" + nextEducatorId + "', '" + 
+                           name + "', '" + email + "' ,SHA2('" + password + "',256))";
+                    stmt.executeUpdate(sql);
+                }
+
             }
         }else{
-            
+            System.out.println("Incorrect Email format");
+            registerGUI();
         }
-            
-            
+        
+        
         
     }
     
@@ -409,12 +449,29 @@ public class FutureHacking {
         stmt.executeUpdate(sql);
     }
     
+    private static String hashPassword(String password) {
+        try {
+            MessageDigest digest = MessageDigest.getInstance("SHA-256");
+            byte[] hashedBytes = digest.digest(password.getBytes());
+            StringBuilder sb = new StringBuilder();
+            for (byte b : hashedBytes) {
+                sb.append(String.format("%02x", b));
+            }
+            return sb.toString();
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+    
+    public static boolean isValidEmail(String email) {
+        Matcher matcher = pattern.matcher(email);
+        return matcher.matches();
+    }
+    
     //Run program
     public static void main(String[] args) {
         // TODO code application logic here
         new FutureHacking();
-    }
-    
-    
-    
+    } 
 }
