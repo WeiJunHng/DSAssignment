@@ -9,7 +9,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/CascadeStyleSheet.css to ed
 
 .navBar{
     -fx-background-color: #FFFFFF;
-    -fx-background-radius: 0 55 55 0;
+    -fx-background-radius: 55 55 55 55;
     -fx-alignment: top-center;
     -fx-padding: 20;
     -fx-spacing: 20;
@@ -17,10 +17,11 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/CascadeStyleSheet.css to ed
 
 .navBar Button{
     -fx-background-color: transparent;
-    -fx-background-radius: 200;
+    -fx-background-radius: 210;
     -fx-pref-width: 270;
-    -fx-pref-height: 65;
-    -fx-alignment: center;
+    -fx-pref-height: 67;
+    -fx-alignment: center-left;
+    -fx-spacing: 50px;
     
     -fx-font-family : "Verdana";
     -fx-font-size : 1.8em;
